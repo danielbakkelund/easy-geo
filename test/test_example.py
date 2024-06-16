@@ -58,3 +58,17 @@ class TestExample(ut.TestCase):
 
         # Should be about 2 kilometers
         self.assertEqual(np.round(dist,1), 2.1)
+
+    def test_outside_zone_strict(self):
+        '''
+        Run the example in the README.md
+        '''
+        lat1 = 69.845889
+        lon1 = 19.991958
+
+        # Set up a struct transformer with origin in (0,0)
+        transformer = eg.Transformer(lat=0,lon=0, unit='m',strict=True)
+
+        # Compute the cartesian coords of the points
+        with self.assertRaises(ValueError) as context:
+            transformer.from_latlon(lat1,lon1)

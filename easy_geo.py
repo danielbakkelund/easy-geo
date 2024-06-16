@@ -19,6 +19,7 @@ class Transformer:
         '''
 
         self.log    = _get_logger(Transformer)
+        self.strict = strict
 
         self.x0, self.y0, self.zone, self.ns = utm.from_latlon(lat,lon)
 
@@ -34,6 +35,7 @@ class Transformer:
         self.log.debug('Created geo->utm projection in zone %s with n/s=%s and origin=(%f,%f)',
                        self.zone, self.ns, self.x0, self.y0)
 
+
     def from_latlon(self,lat,lon):
         '''
         Transforms a geo location point on the form (lat,lon) to cartesian coordinates.
@@ -42,7 +44,11 @@ class Transformer:
         x,y,z,ns = utm.from_latlon(lat,lon)
 
         if z != self.zone or ns != self.ns:
-            raise ValueErrpr(f'({lat},{lon}) is outsize utm zone {self.zone}{self.ns}.')
+            msg = f'({lat},{lon}) is outsize utm zone {self.zone}{self.ns}.'
+            if self.strict:
+                raise ValueError(msg)
+            else:
+                self.log.warning(msg)
 
         result = (x,y) - self.origin
 
