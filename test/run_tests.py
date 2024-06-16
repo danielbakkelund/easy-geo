@@ -22,7 +22,9 @@ def run_tests():
     import unittest
 
     # Configure logging
-    log_level = getattr(logging,get_cmd_arg('--logLevel', 'WARNING').upper())
+    level_name = get_cmd_arg('--logLevel', 'WARNING').upper()
+    log_level = getattr(logging,level_name)
+    print(f'Log level set to {level_name}')
     logging.basicConfig(level=log_level,
                         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                         datefmt='%Y-%m-%d %H:%M:%S')
