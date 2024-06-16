@@ -10,8 +10,12 @@ def _get_logger(x):
 
 
 class Transformer:
-    def __init__(self,lat,lon,unit='m'):
+    def __init__(self,lat,lon,unit='m',strict=True):
         '''
+        lat - The zero latitude
+        lon - The zero longitude
+        unit - The length unit of the cartesian coordinates.
+               Defaults to 'm' (meters). Supported units are: 'm', 'km'.
         '''
 
         self.log    = _get_logger(Transformer)
@@ -20,19 +24,23 @@ class Transformer:
 
         self.origin = np.array((self.x0, self.y0))
 
-        self.unit_converter = lambda x : x
-        if unit == 'km':
+        if unit == 'm':
+            self.unit_converter = lambda x : x
+        elif unit == 'km':
             self.unit_converter = lambda x : x/1000
+        else:
+            raise ValueError(f'Unknown unit: "{unit}".')
 
         self.log.debug('Created geo->utm projection in zone %s with n/s=%s and origin=(%f,%f)',
                        self.zone, self.ns, self.x0, self.y0)
 
-    def to_cart(self,lat,lon):
+    def from_latlon(self,lat,lon):
         '''
         Transforms a geo location point on the form (lat,lon) to cartesian coordinates.
         Output is a numpy array of shape (2,).
         '''
         x,y,z,ns = utm.from_latlon(lat,lon)
+
         if z != self.zone or ns != self.ns:
             raise ValueErrpr(f'({lat},{lon}) is outsize utm zone {self.zone}{self.ns}.')
 
