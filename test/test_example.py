@@ -84,3 +84,15 @@ class TestExample(ut.TestCase):
         transformer = eg.Transformer(lat=0,lon=0, unit='m',strict=False)
         with self.assertLogs('easy_geo.Transformer', level='WARNING') as cm:
             transformer.from_latlon(lat1,lon1)
+
+    def test_inverse(self):
+        '''
+        Check going back and forth
+        '''
+        transformer = eg.Transformer(lat=69.844875,lon=20.045554, unit='m')
+
+        lat = 69.845889
+        lon = 19.991958
+        xy  = transformer.from_latlon(lat,lon)
+        res = transformer.to_latlon(*xy)
+        npt.assert_allclose(res,(lat,lon))

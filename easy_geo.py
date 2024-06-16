@@ -25,10 +25,11 @@ class Transformer:
 
         self.origin = np.array((self.x0, self.y0))
 
+        self.scale = None
         if unit == 'm':
-            self.unit_converter = lambda x : x
+            self.scale = 1.0
         elif unit == 'km':
-            self.unit_converter = lambda x : x/1000
+            self.scale = 1000.0
         else:
             raise ValueError(f'Unknown unit: "{unit}".')
 
@@ -56,4 +57,15 @@ class Transformer:
             self.log.warning('nan coordinate %s for geo coordinates %s.',
                              tuple(result), tuple(lat,lon))
 
-        return self.unit_converter(result)
+        return result/self.scale
+
+    def to_latlon(self,x,y):
+        '''
+        Transforms the Cartesian coordinates to latitude and longitude.
+        '''
+        xx,yy = np.array((x,y))*self.scale + self.origin
+        return utm.to_latlon(easting=xx,
+                             northing=yy,
+                             zone_number=self.zone,
+                             zone_letter=self.ns,
+                             strict=self.strict)
