@@ -32,7 +32,7 @@ class Transformer:
         else:
             raise ValueError(f'Unknown unit: "{unit}".')
 
-        self.log.debug('Created geo->utm projection in zone %s with n/s=%s and origin=(%f,%f)',
+        self.log.debug('Created geo->utm projection in zone %s%s with origin=(%f,%f)',
                        self.zone, self.ns, self.x0, self.y0)
 
 

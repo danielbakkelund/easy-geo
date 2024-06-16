@@ -72,3 +72,15 @@ class TestExample(ut.TestCase):
         # Compute the cartesian coords of the points
         with self.assertRaises(ValueError) as context:
             transformer.from_latlon(lat1,lon1)
+
+    def test_outside_zone_non_strict(self):
+        '''
+        Run the example in the README.md
+        '''
+        lat1 = 69.845889
+        lon1 = 19.991958
+
+        # Set up a struct transformer with origin in (0,0)
+        transformer = eg.Transformer(lat=0,lon=0, unit='m',strict=False)
+        with self.assertLogs('easy_geo.Transformer', level='WARNING') as cm:
+            transformer.from_latlon(lat1,lon1)

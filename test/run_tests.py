@@ -8,7 +8,7 @@ def get_cmd_arg(prefix,default=None):
     '''
     import sys
 
-    start = prefix + ':'
+    start = prefix + '='
 
     for arg in sys.argv:
         if arg.startswith(start):
