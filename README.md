@@ -1,4 +1,4 @@
-# easy-geo-py
+# easy-geo
 A very-easy-to-use library for conversion between geographical coordinate (GPS, Google maps etc) and Cartesian coordinates.
 
 The library allows you to set up a two-way transformer to convert between geo-coordinates and Cartesian coordinates.
