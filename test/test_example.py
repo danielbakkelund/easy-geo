@@ -1,7 +1,7 @@
 
 import unittest as ut
 
-import easy_geo as eg
+import easygeo as eg
 
 import numpy as np
 import numpy.linalg as npl
@@ -82,7 +82,7 @@ class TestExample(ut.TestCase):
 
         # Set up a struct transformer with origin in (0,0)
         transformer = eg.Transformer(lat=0,lon=0, unit='m',strict=False)
-        with self.assertLogs('easy_geo.Transformer', level='WARNING') as cm:
+        with self.assertLogs('easygeo.Transformer', level='WARNING') as cm:
             transformer.from_latlon(lat1,lon1)
 
     def test_inverse(self):

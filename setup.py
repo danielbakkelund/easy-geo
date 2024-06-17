@@ -1,6 +1,10 @@
 from setuptools import setup, find_packages
 setup(
-    name='easy_geo',
+    name='easygeo',
     version='0.0.1',
-    packages=['easy_geo']
+    packages=['easy_geo'],
+    install_requires=[
+        'utm',
+        'numpy'
+    ]
 )
